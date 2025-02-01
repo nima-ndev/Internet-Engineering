@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل مدیریت</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: "WYekan";
+        font-style: normal;
+        font-display: swap;
+        src: url(../assets/W_yekan.ttf) format("truetype");
+      }
+      body {
+        font-family: "WYekan", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white py-6">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <h1 class="text-3xl font-bold">پنل مدیریت</h1>
+        <div>
+          <a href="./home.html" class="text-white hover:text-indigo-200"
+            >خروج</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Admin Information Section -->
+    <section class="container mx-auto px-4 pt-8">
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-10">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+          اطلاعات کاربری
+        </h2>
+        <p class="text-lg text-gray-700">
+          نام: <span id="userName" class="font-semibold"></span>
+        </p>
+        <p class="text-lg text-gray-700">
+          ایمیل:
+          <span id="userEmail" class="font-semibold"></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Add Category Form -->
+    <section class="container mx-auto px-4">
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-10">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+          اضافه کردن دسته‌بندی
+        </h2>
+        <form id="add-category-form">
+          <div class="mb-4">
+            <label for="category-name" class="block text-lg text-gray-800"
+              >نام دسته‌بندی</label
+            >
+            <input
+              type="text"
+              id="category-name"
+              class="w-full px-4 py-2 border rounded-md"
+              placeholder="نام دسته‌بندی را وارد کنید"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700"
+          >
+            اضافه کردن
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- News Management Section -->
+    <section class="container mx-auto px-4">
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-10">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">مدیریت اخبار</h2>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-700">اضافه کردن خبر</h3>
+          <form id="add-news-form" class="mt-4">
+            <div class="mb-4">
+              <label for="news-title" class="block text-lg text-gray-800"
+                >عنوان خبر</label
+              >
+              <input
+                type="text"
+                id="news-title"
+                class="w-full px-4 py-2 border rounded-md"
+                placeholder="عنوان خبر را وارد کنید"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label for="news-description" class="block text-lg text-gray-800"
+                >توضیحات خبر</label
+              >
+              <textarea
+                id="news-description"
+                rows="4"
+                class="w-full px-4 py-2 border rounded-md"
+                placeholder="توضیحات خبر را وارد کنید"
+                required
+              ></textarea>
+            </div>
+            <div class="mb-4">
+              <label for="news-category" class="block text-lg text-gray-800"
+                >دسته‌بندی</label
+              >
+              <select
+                id="news-category"
+                class="w-full px-4 py-2 border rounded-md"
+              >
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700"
+            >
+              اضافه کردن خبر
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Existing News List (for editing or deleting) -->
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-10">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">
+          لیست اخبار موجود
+        </h3>
+        <table class="min-w-full table-auto border-collapse">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 text-left">عنوان</th>
+              <th class="px-4 py-2 text-left">دسته‌بندی</th>
+              <th class="px-4 py-2 text-left">عملیات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">پیشرفت‌های جدید در هوش مصنوعی</td>
+              <td class="border px-4 py-2">تکنولوژی</td>
+              <td class="border px-4 py-2">
+                <button
+                  class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                >
+                  ویرایش
+                </button>
+                <button
+                  class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">نتیجه بازی فوتبال</td>
+              <td class="border px-4 py-2">ورزشی</td>
+              <td class="border px-4 py-2">
+                <button
+                  class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                >
+                  ویرایش
+                </button>
+                <button
+                  class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+            <!-- More rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+      <p>&copy; 2025 تمامی حقوق محفوظ است</p>
+    </footer>
+
+    <!-- Script to handle form submissions -->
+    <script>
+      getAdminInfo();
+      getCategories();
+      function getAdminInfo() {
+        fetch("../api.php?action=getAdminInfo&admin_id=1", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("userName").textContent = data.name;
+            document.getElementById("userEmail").textContent = data.email;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+      function insertCategory(title) {
+        fetch("../api.php?action=insertCategory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: title,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => alert("دسته‌بندی جدید اضافه شد!"))
+          .catch((error) => console.error("Error:", error));
+      }
+      function getCategories(title) {
+        fetch("../api.php?action=getCategories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const selectElement = document.getElementById("news-category");
+
+            data.categories.forEach((category) => {
+              const option = document.createElement("option");
+              option.value = category.title.toLowerCase();
+              option.textContent = category.title;
+              selectElement.appendChild(option);
+            });
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+      function insertNews(title,body,category){
+            fetch("../api.php?action=insertNews", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: title,
+                    body:body,
+                    category: category
+                })
+            })
+            .then(response => response.json())
+            .then(data => alert("خبر جدید اضافه شد!")) 
+            .catch(error => console.error("Error:", error));
+        }
+
+      // Add category form submission handler
+      document
+        .getElementById("add-category-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const categoryName = document.getElementById("category-name").value;
+          insertCategory(categoryName);
+          document.getElementById("category-name").value = ""; // Clear input
+        });
+
+      // Add news form submission handler
+      document
+        .getElementById("add-news-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const newsTitle = document.getElementById("news-title").value;
+          const newsDescription =document.getElementById("news-description").value;
+          const newsCategory = document.getElementById("news-category").value;
+          console.log("Added News:", newsTitle, newsDescription, newsCategory);
+          insertNews(newsTitle,newsDescription,newsCategory)
+          
+          document.getElementById("news-title").value = ""; // Clear input
+          document.getElementById("news-description").value = ""; // Clear textarea
+          document.getElementById("news-category").value = ""; // Clear select
+        });
+    </script>
+  </body>
+</html>
