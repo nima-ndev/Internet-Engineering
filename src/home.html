@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحه اصلی اخبار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: "WYekan";
+        font-style: normal;
+        font-display: swap;
+        src: url(../assets/W_yekan.ttf) format("truetype");
+      }
+      body {
+        font-family: "WYekan", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header with Links to Login/Signup -->
+    <header class="bg-indigo-600 text-white py-6">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="./home"><h1 class="text-4xl font-bold">آخرین اخبار</h1></a>
+        <p class="text-xl mt-2 text-center">
+          در اینجا می‌توانید اخبار جدید را در دسته‌بندی‌های مختلف مشاهده کنید
+        </p>
+        <div>
+          <a href="login.html" class="text-white hover:text-indigo-200 mx-4"
+            >ورود</a
+          >
+          <a href="signup.html" class="text-white hover:text-indigo-200"
+            >ثبت نام</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+      <div class="container mx-auto px-4 py-8">
+        <div id="news-container"></div>
+      </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-20">
+      <p>&copy; 2025 تمامی حقوق محفوظ است</p>
+    </footer>
+
+    <script>
+      let data = [];
+      fetchAndShow();
+
+      async function fetchAndShow() {
+        await getCategoriesWithNews(); 
+        setItems();
+      }
+
+      function getCategoriesWithNews() {
+        return fetch("../api.php?action=getCategoriesWithNews", {
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((inputData) => {
+            data = inputData;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      function setItems() {
+        const newsContainer = document.getElementById("news-container");
+
+        data.forEach((category) => {
+          // Create category section
+          const categorySection = document.createElement("div");
+          categorySection.classList.add("mb-10");
+
+          // Add category title
+          const categoryTitle = document.createElement("h2");
+          categoryTitle.classList.add(
+            "text-2xl",
+            "font-semibold",
+            "text-gray-800",
+            "mb-4"
+          );
+          categoryTitle.textContent = `دسته‌بندی: ${category.category_title}`;
+          categorySection.appendChild(categoryTitle);
+
+          // Check if the category has news
+          if (category.news.length > 0) {
+            // Create a grid container for news items
+            const newsGrid = document.createElement("div");
+            newsGrid.classList.add(
+              "grid",
+              "grid-cols-1",
+              "sm:grid-cols-2",
+              "lg:grid-cols-3",
+              "gap-6"
+            );
+
+            category.news.forEach((newsItem) => {
+              // Create a news card
+              const newsCard = document.createElement("div");
+              newsCard.classList.add(
+                "bg-white",
+                "p-4",
+                "rounded-lg",
+                "shadow-lg"
+              );
+
+              // News title
+              const newsTitle = document.createElement("h3");
+              newsTitle.classList.add(
+                "text-xl",
+                "font-semibold",
+                "text-gray-800"
+              );
+              newsTitle.textContent = newsItem.title;
+              newsCard.appendChild(newsTitle);
+
+              // News body
+              const newsBody = document.createElement("p");
+              newsBody.classList.add("text-gray-600", "mt-2");
+              newsBody.textContent = newsItem.body;
+              newsCard.appendChild(newsBody);
+
+              // Read more link
+              const readMoreLink = document.createElement("a");
+              readMoreLink.href = `singleNews.html?id=${newsItem.id}`;
+              readMoreLink.classList.add(
+                "text-indigo-600",
+                "hover:text-indigo-800",
+                "mt-4",
+                "inline-block"
+              );
+              readMoreLink.textContent = "مشاهده بیشتر";
+              newsCard.appendChild(readMoreLink);
+
+              // Append news card to the grid
+              newsGrid.appendChild(newsCard);
+            });
+
+            // Append grid to the category section
+            categorySection.appendChild(newsGrid);
+          } else {
+            // Display message if no news is available
+            const noNewsMessage = document.createElement("p");
+            noNewsMessage.classList.add("text-gray-600");
+            noNewsMessage.textContent = "هیچ خبری در این دسته‌بندی موجود نیست.";
+            categorySection.appendChild(noNewsMessage);
+          }
+
+          // Append category section to the main container
+          newsContainer.appendChild(categorySection);
+        });
+      }
+    </script>
+  </body>
+</html>
