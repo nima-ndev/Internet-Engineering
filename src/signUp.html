@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت نام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: "WYekan";
+        font-style: normal;
+        font-display: swap;
+        src: url(../assets/W_yekan.ttf) format("truetype");
+      }
+      body {
+        font-family: "WYekan", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+      <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+        ثبت نام
+      </h2>
+
+      <form id="signUpForm">
+        <!-- Name input -->
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700">نام کامل</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="نام خود را وارد کنید"
+            required
+          />
+        </div>
+
+        <!-- Email input -->
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">پست الکترونیک</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="ایمیل خود را وارد کنید"
+            required
+          />
+        </div>
+
+        <!-- Password input -->
+        <div class="mb-4">
+          <label for="password" class="block text-gray-700">کلمه عبور</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="کلمه عبور خود را وارد کنید"
+            required
+          />
+        </div>
+
+        <!-- Confirm Password input -->
+        <div class="mb-6">
+          <label for="confirmPassword" class="block text-gray-700"
+            >تأیید کلمه عبور</label
+          >
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="کلمه عبور خود را دوباره وارد کنید"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          ثبت نام
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">
+          حساب کاربری دارید؟
+          <a href="./login.html" class="text-indigo-600 hover:text-indigo-700"
+            >ورود کنید</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("signUpForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          // Basic Validation
+          if (password !== confirmPassword) {
+            alert("کلمه عبور و تأیید کلمه عبور مطابقت ندارند.");
+            return;
+          }
+
+          // Simulate a successful sign-up
+          if (name && email && password) {
+            signup(name,email,password);
+          } else {
+            alert("لطفاً تمامی فیلدها را پر کنید.");
+          }
+        });
+
+      
+      function signup(name,email,password) {
+        fetch("../api.php?action=signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert("ثبت نام با موفقیت انجام شد!");
+            console.log(data)
+            window.location.href = './dashboard.html'; 
+        })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </body>
+</html>
