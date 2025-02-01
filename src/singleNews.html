@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>خبر: پیشرفت‌های جدید در هوش مصنوعی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: "WYekan";
+        font-style: normal;
+        font-display: swap;
+        src: url(../assets/W_yekan.ttf) format("truetype");
+      }
+      body {
+        font-family: "WYekan", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white py-6">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="./home"><h1 class="text-4xl font-bold">آخرین اخبار</h1></a>
+        <div>
+          <a href="login.html" class="text-white hover:text-indigo-200 mx-4"
+            >ورود</a
+          >
+          <a href="signup.html" class="text-white hover:text-indigo-200"
+            >ثبت نام</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+      <div id="news-content" class="bg-white p-8 rounded-lg shadow-lg">
+        <!-- News content will be inserted here dynamically -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4">
+      <p>&copy; 2025 تمامی حقوق محفوظ است</p>
+    </footer>
+
+    <script>
+      let newsItem = {};
+      fetchAndShow();
+
+      async function fetchAndShow() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        await getSpecificNew(id);
+        setItem();
+      }
+
+      function getSpecificNew(id) {
+        return fetch("../api.php?action=getNews&id=" + id, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: id,
+          }),
+        })
+          .then((response) => response.json())
+          .then((inputData) => (newsItem = inputData))
+          .catch((error) => console.error("Error:", error));
+      }
+      function setItem() {
+        console.log(newsItem);
+        
+        const newsContent = document.getElementById("news-content");
+
+        if (newsItem) {
+          newsContent.innerHTML = `
+                <!-- Category -->
+                <div class="mb-4">
+                    <span class="bg-indigo-600 text-white text-sm px-4 py-2 rounded-full">${
+                      newsItem.category_name
+                    }</span>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">${
+                  newsItem.title
+                }</h2>
+
+                <!-- Description -->
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    ${newsItem.body}
+                </p>
+
+                <!-- Read More Link -->
+                <div class="mt-6">
+                    <a href="category.html?category=${encodeURIComponent(
+                      newsItem.category
+                    )}" 
+                        class="text-indigo-600 hover:text-indigo-800 font-semibold">
+                        مشاهده اخبار بیشتر در این دسته‌بندی
+                    </a>
+                </div>
+            `;
+        } else {
+          // If news not found
+          newsContent.innerHTML = `
+                <h2 class="text-2xl font-bold text-red-600">خبر یافت نشد!</h2>
+                <p class="text-gray-600 mt-4">ممکن است این خبر حذف شده باشد یا لینک اشتباه است.</p>
+                <a href="index.html" class="text-indigo-600 hover:text-indigo-800 font-semibold mt-4 block">
+                    بازگشت به صفحه اصلی
+                </a>
+            `;
+        }
+      }
+    </script>
+  </body>
+</html>
